@@ -1,0 +1,66 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId) && incoming().id == userId;
+      allow update: if isOwner(userId) && incoming().id == existing().id;
+      allow delete: if isOwner(userId);
+
+      // User study events (immutable event logs)
+      match /studyEvents/{eventId} {
+        allow get, list: if isOwner(userId);
+        allow create: if isOwner(userId) && incoming().userId == userId;
+        allow update: if false;
+        allow delete: if isOwner(userId);
+      }
+    }
+
+    // Decks
+    match /decks/{deckId} {
+      allow get: if existing().isPublic == true || (isSignedIn() && existing().ownerId == request.auth.uid);
+      allow list: if isSignedIn() && existing().ownerId == request.auth.uid;
+      allow create: if isSignedIn() && incoming().ownerId == request.auth.uid;
+      allow update: if isSignedIn() && existing().ownerId == request.auth.uid && incoming().ownerId == existing().ownerId;
+      allow delete: if isSignedIn() && existing().ownerId == request.auth.uid;
+
+      // Cards inside decks
+      match /cards/{cardId} {
+        allow get: if get(/databases/$(database)/documents/decks/$(deckId)).data.isPublic == true || (isSignedIn() && existing().ownerId == request.auth.uid);
+        allow list: if get(/databases/$(database)/documents/decks/$(deckId)).data.isPublic == true || (isSignedIn() && existing().ownerId == request.auth.uid);
+        allow create: if isSignedIn() && incoming().ownerId == request.auth.uid && get(/databases/$(database)/documents/decks/$(deckId)).data.ownerId == request.auth.uid;
+        allow update: if isSignedIn() && existing().ownerId == request.auth.uid && incoming().ownerId == existing().ownerId;
+        allow delete: if isSignedIn() && existing().ownerId == request.auth.uid;
+      }
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "7ifd - Language Learning Platform",
+  "description": "Modern full-stack language learning and spaced repetition platform with multi-language study decks, CEFR levels, and offline sync.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

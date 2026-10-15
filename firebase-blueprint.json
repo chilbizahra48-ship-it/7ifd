@@ -1,0 +1,100 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User account profile and learning preferences",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "interfaceLanguage": { "type": "string", "maxLength": 10 },
+        "targetLanguage": { "type": "string", "maxLength": 10 },
+        "preferredTranslationLanguage": { "type": "string", "maxLength": 10 },
+        "currentLevel": { "type": "string", "maxLength": 5 },
+        "dailyGoalCards": { "type": "number" },
+        "theme": { "type": "string", "maxLength": 10 },
+        "timeZone": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "interfaceLanguage", "targetLanguage", "preferredTranslationLanguage"]
+    },
+    "Deck": {
+      "title": "Deck",
+      "description": "Flashcard deck created or copied by a user",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 120 },
+        "description": { "type": "string", "maxLength": 500 },
+        "targetLanguage": { "type": "string", "maxLength": 10 },
+        "categoryId": { "type": "string", "maxLength": 64 },
+        "level": { "type": "string", "maxLength": 5 },
+        "isPublic": { "type": "boolean" },
+        "cardCount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "ownerId", "title", "targetLanguage"]
+    },
+    "Card": {
+      "title": "Card",
+      "description": "Flashcard item within a deck",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "deckId": { "type": "string", "maxLength": 128 },
+        "ownerId": { "type": "string", "maxLength": 128 },
+        "term": { "type": "string", "maxLength": 500 },
+        "translation": { "type": "string", "maxLength": 500 },
+        "pronunciation": { "type": "string", "maxLength": 200 },
+        "transliteration": { "type": "string", "maxLength": 200 },
+        "exampleSentence": { "type": "string", "maxLength": 1000 },
+        "exampleTranslation": { "type": "string", "maxLength": 1000 },
+        "usageNote": { "type": "string", "maxLength": 500 },
+        "tags": { "type": "array" },
+        "srsState": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "deckId", "ownerId", "term", "translation"]
+    },
+    "StudyEvent": {
+      "title": "StudyEvent",
+      "description": "Idempotent log record of a card study review",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "deckId": { "type": "string", "maxLength": 128 },
+        "cardId": { "type": "string", "maxLength": 128 },
+        "rating": { "type": "string", "maxLength": 10 },
+        "reviewTimestamp": { "type": "string", "format": "date-time" },
+        "interval": { "type": "number" },
+        "easeFactor": { "type": "number" },
+        "durationMs": { "type": "number" }
+      },
+      "required": ["id", "userId", "deckId", "cardId", "rating"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile with language and study settings"
+    },
+    "/decks/{deckId}": {
+      "schema": "Deck",
+      "description": "User decks or publicly shared decks"
+    },
+    "/decks/{deckId}/cards/{cardId}": {
+      "schema": "Card",
+      "description": "Cards belonging to a specific deck"
+    },
+    "/users/{userId}/studyEvents/{eventId}": {
+      "schema": "StudyEvent",
+      "description": "Review events recorded for real progress tracking"
+    }
+  }
+}

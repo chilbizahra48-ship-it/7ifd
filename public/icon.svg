@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#141E33" />
+      <stop offset="100%" stop-color="#0B1220" />
+    </linearGradient>
+
+    <!-- Book Left Page Gradient -->
+    <linearGradient id="bookLeftGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+
+    <!-- Book Right Page Gradient -->
+    <linearGradient id="bookRightGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA" />
+      <stop offset="100%" stop-color="#2563EB" />
+    </linearGradient>
+
+    <!-- Fold Gradient on 7 -->
+    <linearGradient id="foldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#CBD5E1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Squircle App Background -->
+  <rect width="512" height="512" rx="112" fill="url(#bgGrad)" />
+
+  <!-- Golden 4-Point Sparkle -->
+  <path d="M335 105 Q335 125 348 132 Q335 139 335 159 Q335 139 322 132 Q335 125 335 105 Z" fill="#FBBF24" />
+
+  <!-- Rear Speech Bubble (文) -->
+  <g transform="translate(350, 205)">
+    <rect x="-32" y="-30" width="64" height="52" rx="20" fill="#475569" />
+    <polygon points="-8,20 8,20 0,30" fill="#475569" />
+    <text x="0" y="4" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="bold" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">文</text>
+  </g>
+
+  <!-- Front Speech Bubble (A) -->
+  <g transform="translate(330, 215)">
+    <rect x="-35" y="-32" width="70" height="56" rx="22" fill="#3B82F6" />
+    <polygon points="-10,22 8,22 -2,34" fill="#3B82F6" />
+    <text x="0" y="3" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="800" fill="#FFFFFF" text-anchor="middle" dominant-baseline="central">A</text>
+  </g>
+
+  <!-- Stylized Number 7 -->
+  <!-- Top Bar & Stem -->
+  <path d="M 165 140 
+           L 300 140 
+           C 315 140, 320 152, 312 165 
+           L 242 305 
+           L 196 270 
+           L 260 182 
+           L 170 182 
+           C 158 182, 152 172, 155 160 
+           Z" 
+        fill="#FFFFFF" />
+
+  <!-- Top-Right Fold on the 7 -->
+  <path d="M 285 140 L 315 140 C 315 155, 305 175, 290 190 Z" fill="url(#foldGrad)" />
+
+  <!-- Open Book at the Foundation of 7 -->
+  <!-- Left Page -->
+  <path d="M 135 295 
+           C 175 270, 230 278, 252 335 
+           C 220 315, 170 310, 145 330 
+           Z" 
+        fill="url(#bookLeftGrad)" />
+
+  <!-- Right Page -->
+  <path d="M 377 295 
+           C 337 270, 282 278, 260 335 
+           C 292 315, 342 310, 367 330 
+           Z" 
+        fill="url(#bookRightGrad)" />
+
+  <!-- Book Spine Center Glow -->
+  <ellipse cx="256" cy="336" rx="9" ry="5" fill="#93C5FD" />
+
+  <!-- 7ifd Brand Wordmark -->
+  <text x="256" y="415" 
+        font-family="system-ui, -apple-system, 'Plus Jakarta Sans', sans-serif" 
+        font-size="76" 
+        font-weight="900" 
+        letter-spacing="-1px" 
+        fill="#FFFFFF" 
+        text-anchor="middle">7ifd</text>
+</svg>
