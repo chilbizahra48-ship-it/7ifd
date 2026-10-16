@@ -114,7 +114,7 @@ export const ExploreScreen: React.FC<ExploreScreenProps> = ({
           <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-4">
               <img
-                src="/icon.svg"
+                src={`${import.meta.env.BASE_URL}icon.svg`}
                 alt="7ifd Logo"
                 className="w-16 h-16 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-800 shrink-0 object-contain"
               />

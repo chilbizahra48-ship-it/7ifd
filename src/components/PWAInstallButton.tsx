@@ -45,7 +45,7 @@ export const PWAInstallButton: React.FC<{ className?: string; variant?: 'button'
       ) : variant === 'banner' ? (
         <div className={`p-4 rounded-2xl bg-gradient-to-r from-indigo-900 to-slate-900 text-white border border-indigo-700/50 shadow-md flex items-center justify-between gap-4 ${className}`}>
           <div className="flex items-center gap-3">
-            <img src="/icon.svg" alt="7ifd Logo" className="w-10 h-10 rounded-xl shadow-xs shrink-0" />
+            <img src={`${import.meta.env.BASE_URL}icon.svg`} alt="7ifd Logo" className="w-10 h-10 rounded-xl shadow-xs shrink-0" />
             <div>
               <span className="font-extrabold text-sm block">{titleText}</span>
               <span className="text-xs text-indigo-200/80">{descText}</span>
@@ -77,7 +77,7 @@ export const PWAInstallButton: React.FC<{ className?: string; variant?: 'button'
           <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 p-6 shadow-2xl border border-slate-200 dark:border-slate-800 text-left">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-2.5">
-                <img src="/icon.svg" alt="7ifd" className="w-8 h-8 rounded-lg" />
+                <img src={`${import.meta.env.BASE_URL}icon.svg`} alt="7ifd" className="w-8 h-8 rounded-lg" />
                 <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
                   {isArabic ? 'تثبيت تطبيق 7ifd' : 'Install 7ifd App'}
                 </h3>

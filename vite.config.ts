@@ -4,9 +4,11 @@ import path from 'path';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
-export default defineConfig(() => {
+export default defineConfig(({ command }) => {
+  const base = process.env.VITE_BASE_PATH || (command === 'build' ? '/7ifd/' : '/');
+
   return {
-    base: '/7ifd/',
+    base,
     plugins: [
       react(),
       tailwindcss(),
@@ -14,15 +16,15 @@ export default defineConfig(() => {
         registerType: 'autoUpdate',
         includeAssets: ['favicon.ico', 'apple-touch-icon.png', 'icon.svg'],
         manifest: {
-          id: '/',
+          id: base,
           name: '7ifd - Language Learning Platform',
           short_name: '7ifd',
           description: 'Spaced repetition language mastery across multiple languages and CEFR levels.',
           theme_color: '#0e172e',
           background_color: '#0e172e',
           display: 'standalone',
-          start_url: '/',
-          scope: '/',
+          start_url: base,
+          scope: base,
           icons: [
             {
               src: '/pwa-192x192.png',
@@ -52,7 +54,7 @@ export default defineConfig(() => {
     ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, '.'),
+        '@': path.resolve(import.meta.dirname || '.', '.'),
       },
     },
     server: {

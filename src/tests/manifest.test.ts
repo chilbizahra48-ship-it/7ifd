@@ -27,12 +27,12 @@ describe('Catalogue Manifest and Content Integrity Validation', () => {
     expect(res.issues.some((i) => i.includes('Missing example translation for es'))).toBe(true);
   });
 
-  it('builds catalogue manifest covering all 11 languages x 12 categories x 6 levels', () => {
+  it('builds catalogue manifest covering all 11 languages x 8 categories x 6 levels', () => {
     const manifest = buildCatalogueManifest();
-    expect(manifest.length).toBe(11 * 12 * 6); // 792 entries
+    expect(manifest.length).toBe(11 * 8 * 6); // 528 entries
 
     const summary = getManifestSummary();
-    expect(summary.totalSlots).toBe(792);
+    expect(summary.totalSlots).toBe(528);
     expect(summary.totalValidCards).toBeGreaterThan(0);
   });
 });

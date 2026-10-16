@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { X, Trash2, Check, AlertTriangle } from 'lucide-react';
+import { X, Trash2, Check, AlertTriangle, Sparkles } from 'lucide-react';
 import { Card, Deck } from '../types';
 import { useAuth } from '../context/AuthContext';
 import { getTranslation } from '../i18n/translations';
+import { suggestCardDetails } from '../lib/ai';
 
 interface CardEditorModalProps {
   isOpen: boolean;
@@ -75,6 +76,27 @@ export const CardEditorModal: React.FC<CardEditorModalProps> = ({
     setErrorMsg('');
     setShowConfirmDelete(false);
   }, [initialCard, defaultDeckId, decks, isOpen]);
+
+  const [isSuggesting, setIsSuggesting] = useState(false);
+
+  const handleAutoSuggest = async () => {
+    if (!term.trim()) return;
+    setIsSuggesting(true);
+    try {
+      const currentDeck = decks.find((d) => d.id === deckId);
+      const targetLang = currentDeck?.targetLanguage || profile?.targetLanguage || 'es';
+      const nativeLang = profile?.preferredTranslationLanguage || profile?.interfaceLanguage || 'en';
+      const result = await suggestCardDetails(term, targetLang, nativeLang);
+      if (result.translation && !translation) setTranslation(result.translation);
+      if (result.pronunciation && !pronunciation) setPronunciation(result.pronunciation);
+      if (result.transliteration && !transliteration) setTransliteration(result.transliteration);
+      if (result.exampleSentence && !exampleSentence) setExampleSentence(result.exampleSentence);
+      if (result.exampleTranslation && !exampleTranslation) setExampleTranslation(result.exampleTranslation);
+      if (result.tags && result.tags.length > 0 && !tagsInput) setTagsInput(result.tags.join(', '));
+    } finally {
+      setIsSuggesting(false);
+    }
+  };
 
   if (!isOpen) return null;
 
@@ -178,9 +200,23 @@ export const CardEditorModal: React.FC<CardEditorModalProps> = ({
           {/* Front & Back */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1.5">
-                {getTranslation('card_front_label', lang)} *
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
+                  {getTranslation('card_front_label', lang)} *
+                </label>
+                {term.trim() && (
+                  <button
+                    type="button"
+                    onClick={handleAutoSuggest}
+                    disabled={isSuggesting}
+                    className="flex items-center gap-1 text-[11px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline"
+                    title="Fill from offline dictionary / pre-bundled data"
+                  >
+                    <Sparkles className="w-3 h-3" />
+                    <span>{isSuggesting ? '...' : (lang === 'ar' ? 'تعبئة من القاموس (Offline)' : 'Auto-fill (Offline)')}</span>
+                  </button>
+                )}
+              </div>
               <textarea
                 required
                 rows={2}

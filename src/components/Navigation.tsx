@@ -55,7 +55,7 @@ export const Navigation: React.FC<NavigationProps> = ({ activeTab, onSelectTab, 
         <div className="p-4 flex items-center justify-between border-b border-slate-100 dark:border-slate-800/80">
           <div className="flex items-center gap-2.5">
             <img
-              src="/icon.svg"
+              src={`${import.meta.env.BASE_URL}icon.svg`}
               alt="7ifd Logo"
               className="w-10 h-10 rounded-xl shadow-xs border border-slate-100 dark:border-slate-800 shrink-0 object-contain"
             />
